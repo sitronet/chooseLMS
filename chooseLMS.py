@@ -31,9 +31,6 @@ from kivy.uix.boxlayout import BoxLayout
 
 Builder.load_string('''
 <SelectArch>:
-    #padding: '30dp'
-    #spacing: '20dp'
-    
         
     BoxLayout:
         id: box_fenetre
