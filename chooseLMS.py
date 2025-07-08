@@ -334,6 +334,21 @@ class SelectArch(BoxLayout):
             if resultat_installation.stderr:
                 self.ids.label_info.text += '\n installation : ' + resultat_installation.stderr
 
+            # si il manque des librairies lors d'une première installation forcer
+            # leur installation
+            try:
+                resultat_installation2 = subprocess.run(['apt', 'install', '-y', '-f'],
+                                                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            except Exception as err:
+                print(f"Unexpected {err=}, {type(err)=}")
+                raise
+            if resultat_installation2.stderr:
+                self.ids.label_info.text += '\n installation phase 2 : ' + resultat_installation2.stderr
+
+
+            self.ids.label_info.text += 'It is done'
+            self.ids.cancel_arch.text = 'Done - Exit'
+            
             self.ids.confirmer.disabled = True
             # delete the /tmp/file
             os.remove(fname)
