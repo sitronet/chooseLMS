@@ -304,6 +304,11 @@ class SelectArch(BoxLayout):
         if md5checksum(fname) == md5:
             print(' download md5 concorde')
             self.ids.label_info.text = 'vérification md5 : OK'
+        else:
+            self.ids.label_info.text = 'erreur sur le md5'
+            self.ids.cancel_arch.text = 'Download Error - Exit'
+            return
+
         # comparaison avec la version installée
         print(version)
         print(self.version_installed)
