@@ -34,6 +34,13 @@ Builder.load_string('''
         
     BoxLayout:
         id: box_fenetre
+        # blue color
+        canvas.before:
+            Color: 
+                rgba: 0.6 , 1.0 , 1.0 , 0.3
+            Rectangle:
+                pos: self.pos
+                size: self.size
         orientation: 'vertical'    
         #cols: 2
         padding: 20
@@ -44,7 +51,7 @@ Builder.load_string('''
             id: label_information
             canvas.before:
                 Color:
-                    rgba: 0.5, 0.5, 0.5, 1
+                    rgba: 0.5, 0.5, 0.5, 0.5
                 Line:    # --- adds a border --- #
                     width: 1
                     rectangle: self.x, self.y, self.width, self.height
@@ -90,6 +97,7 @@ Builder.load_string('''
                 #on_release: root.confirmer
             Button:
                 id: cancel_arch
+                background_color: 1, .1, .1, .7
                 size_hint: (1, 0.5)
                 text: 'Cancel (Exit)'
                 disabled: True
@@ -124,7 +132,7 @@ class SelectArch(BoxLayout):
         preset = None
 
         try:
-            resultat = subprocess.run(['sudo', 'systemctl', '--no-pager', 'list-unit-files'],
+            resultat = subprocess.run(['systemctl', '--no-pager', 'list-unit-files'],
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
@@ -205,6 +213,7 @@ class SelectArch(BoxLayout):
 
         uid = os.getuid()
         if uid != 0 :
+            self.ids.label_information.color = [1,0.1,0.3,1]
             self.ids.label_information.text =\
                 "This programm must be run as root. As user, use 'sudo' - click Cancel Button to exit"
             self.ids.cancel_arch.disabled = False
